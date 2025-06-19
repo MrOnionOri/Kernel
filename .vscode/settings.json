@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.csv": "bibtex",
+        "irq.h": "c"
+    }
+}
