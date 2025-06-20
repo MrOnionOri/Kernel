@@ -1,4 +1,6 @@
 # Rutas
+KEYBOARD_SRC := src/drivers/keyboard.c
+KEYBOARD_OBJ := build/keyboard.o
 SRC_DIR := src
 BOOT_DIR := $(SRC_DIR)/boot
 KERNEL_DIR := $(SRC_DIR)/kernel
@@ -28,6 +30,9 @@ LDFLAGS := -T linker.ld
 
 all: $(ISO_IMAGE)
 
+$(KEYBOARD_OBJ): $(KEYBOARD_SRC)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
@@ -37,7 +42,7 @@ $(BOOT_OBJ): $(BOOT_SRC) | $(BUILD_DIR)
 $(KERNEL_OBJ): $(KERNEL_SRC) | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(KERNEL_BIN): $(BOOT_OBJ) $(KERNEL_OBJ)
+$(KERNEL_BIN): $(BOOT_OBJ) $(KERNEL_OBJ) $(KEYBOARD_OBJ)
 	$(LD) $(LDFLAGS) -o $@ $^
 
 $(ISO_IMAGE): $(KERNEL_BIN)
